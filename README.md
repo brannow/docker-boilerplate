@@ -49,6 +49,8 @@ create a new directory under your HOSTPROJECTROOT and copy the BOLERPLATEROOT/do
   
 in ```docker-compose.yml```:
 in ```app.Dockerfile``` change the name of the Dockerfile if needed (the location is relative ```build: ${BOLERPLATEROOT}``` )  
+
+(sample project: https://github.com/brannow/docker-test-1 )
   
 ##   install-project.sh
 
