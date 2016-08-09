@@ -2,40 +2,36 @@
 # PHP application Docker container
 #######################################
 app:
-  build: .
+  build: ${BOLERPLATEROOT}
   dockerfile: Dockerfile.development
   links:
     - mysql
     #- postgres
     #- mail
-    #- solr
     #- elasticsearch
     #- redis
-    #- memcached
     #- ftp
   ports:
-    - "8000:80"
+    - "8001:80"
     - "8443:443"
     - "10022:22"
   volumes:
-    - ./app/:/app/
+    - ${PROJECTROOT}/:/app/
     - /tmp/debug/:/tmp/debug/
-    - ./:/docker/
-  volumes_from:
-    - storage
+    - ${BOLERPLATEROOT}/:/docker/
   # cap and privileged needed for slowlog
   cap_add:
     - SYS_PTRACE
   privileged: true
   env_file:
-    - etc/environment.yml
-    - etc/environment.development.yml
+    - ${BOLERPLATEROOT}/etc/environment.yml
+    - ${BOLERPLATEROOT}/etc/environment.development.yml
 
 #######################################
 # MySQL server
 #######################################
 mysql:
-  build: docker/mysql
+  build: ${BOLERPLATEROOT}/docker/mysql
   dockerfile: MySQL-5.5
   #dockerfile: MySQL-5.6
   #dockerfile: MySQL-5.7
@@ -45,41 +41,22 @@ mysql:
   #dockerfile: Percona-5.6
   ports:
     - 13306:3306
-  volumes_from:
-    - storage
   volumes:
     - /tmp/debug/:/tmp/debug/
   env_file:
-    - etc/environment.yml
-    - etc/environment.development.yml
+    - ${BOLERPLATEROOT}/etc/environment.yml
+    - ${BOLERPLATEROOT}/etc/environment.development.yml
 
 #######################################
 # PostgreSQL server
 #######################################
 #postgres:
-#  build: docker/postgres/
+#  build: ${BOLERPLATEROOT}/docker/postgres/
 #  ports:
 #    - 15432:5432
-#  volumes_from:
-#    - storage
 #  env_file:
-#    - etc/environment.yml
-#    - etc/environment.development.yml
-
-#######################################
-# Solr server
-#######################################
-#solr:
-#  build: docker/solr/
-#  ports:
-#    - 18983:8983
-#  volumes_from:
-#    - storage
-#  environment:
-#    - SOLR_STORAGE=/storage/solr/server-master/
-#  env_file:
-#    - etc/environment.yml
-#    - etc/environment.development.yml
+#    - ${BOLERPLATEROOT}/etc/environment.yml
+#    - ${BOLERPLATEROOT}/etc/environment.development.yml
 
 #######################################
 # Elasticsearch
@@ -92,59 +69,47 @@ mysql:
 #  volumes_from:
 #    - storage
 #  env_file:
-#    - etc/environment.yml
-#    - etc/environment.development.yml
+#    - ${BOLERPLATEROOT}/etc/environment.yml
+#    - ${BOLERPLATEROOT}/etc/environment.development.yml
 
 #######################################
 # Redis
 #######################################
 #redis:
-#  build: docker/redis/
-#  volumes_from:
-#    - storage
+#  build: ${BOLERPLATEROOT}/docker/redis/
 #  env_file:
-#    - etc/environment.yml
-#    - etc/environment.development.yml
+#    - ${BOLERPLATEROOT}/etc/environment.yml
+#    - ${BOLERPLATEROOT}/etc/environment.development.yml
 
 #######################################
 # Memcached
 #######################################
 #memcached:
-#  build: docker/memcached/
-#  volumes_from:
-#    - storage
+#  build: ${BOLERPLATEROOT}/docker/memcached/
 #  env_file:
-#    - etc/environment.yml
-#    - etc/environment.development.yml
+#    - ${BOLERPLATEROOT}/etc/environment.yml
+#    - ${BOLERPLATEROOT}/etc/environment.development.yml
 
 #######################################
 # Mailcatcher
 #######################################
 #mail:
-#  build: docker/mail/
+#  build: ${BOLERPLATEROOT}/docker/mail/
 #  ports:
 #    - 1080:1080
 #  env_file:
-#    - etc/environment.yml
-#    - etc/environment.development.yml
+#    - ${BOLERPLATEROOT}/etc/environment.yml
+#    - ${BOLERPLATEROOT}/etc/environment.development.yml
 
 #######################################
 # FTP (vsftpd)
 #######################################
 #ftp:
-#  build: docker/vsftpd/
+#  build: ${BOLERPLATEROOT}/docker/vsftpd/
 #  volumes_from:
 #    - storage
 #  volumes:
-#    - ./:/application/
+#    - ${PROJECTROOT}/:/application/
 #  env_file:
-#    - etc/environment.yml
-#    - etc/environment.development.yml
-
-#######################################
-# Storage
-#######################################
-storage:
-  build: docker/storage/
-  volumes:
-    - /storage
+#    - ${BOLERPLATEROOT}/etc/environment.yml
+#    - ${BOLERPLATEROOT}/etc/environment.development.yml
