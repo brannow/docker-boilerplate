@@ -9,5 +9,3 @@
 #######################################
 # Context environment
 
-# TYPO3
-TYPO3_CONTEXT=Development/Docker

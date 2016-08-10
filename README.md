@@ -75,7 +75,13 @@ clone to '/var/www/projects/docker-test-123' ...
 ```
 
 lookup for the ```docker-compose.yml``` in the project directory (in this case: ```/var/www/projects/docker-test-123/docker-compose.yml```)
-execute with docker-compose (default command is ```build```)
+execute with docker-compose (default command is ```build```)  
+
+```
+install-project docker-test-123 post-install
+```
+will execute a install script (composer, npm, database import etc...)
+the install script must under ```$HOSTPROJECTROOT/PROJECT_NAME/install.sh```
 
 ![](https://raw.githubusercontent.com/brannow/docker-boilerplate/master/tty.gif)
 
