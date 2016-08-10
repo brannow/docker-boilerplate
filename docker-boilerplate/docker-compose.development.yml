@@ -8,11 +8,13 @@ app:
     - mysql
     #- postgres
     #- mail
+    #- solr
     #- elasticsearch
     #- redis
+    #- memcached
     #- ftp
   ports:
-    - "8001:80"
+    - "8000:80"
     - "8443:443"
     - "10022:22"
   volumes:
@@ -32,15 +34,15 @@ app:
 #######################################
 mysql:
   build: ${BOLERPLATEROOT}/docker/mysql
-  dockerfile: MySQL-5.5
+  #dockerfile: MySQL-5.5
   #dockerfile: MySQL-5.6
-  #dockerfile: MySQL-5.7
+  dockerfile: MySQL-5.7
   #dockerfile: MariaDB-5.5
   #dockerfile: MariaDB-10
   #dockerfile: Percona-5.5
   #dockerfile: Percona-5.6
   ports:
-    - 13306:3306
+    - 13307:3306
   volumes:
     - /tmp/debug/:/tmp/debug/
   env_file:
@@ -51,9 +53,26 @@ mysql:
 # PostgreSQL server
 #######################################
 #postgres:
-#  build: ${BOLERPLATEROOT}/docker/postgres/
+#  build: docker/postgres/
 #  ports:
 #    - 15432:5432
+#  volumes_from:
+#    - storage
+#  env_file:
+#    - etc/environment.yml
+#    - etc/environment.development.yml
+
+#######################################
+# Solr server
+#######################################
+#solr:
+#  build: ${BOLERPLATEROOT}/docker/solr/
+#  ports:
+#    - 18983:8983
+#  volumes_from:
+#    - storage
+#  environment:
+#    - SOLR_STORAGE=/storage/solr/server-master/
 #  env_file:
 #    - ${BOLERPLATEROOT}/etc/environment.yml
 #    - ${BOLERPLATEROOT}/etc/environment.development.yml
@@ -62,7 +81,7 @@ mysql:
 # Elasticsearch
 #######################################
 #elasticsearch:
-#  build: docker/elasticsearch/
+#  build: ${BOLERPLATEROOT}/docker/elasticsearch/
 #  ports:
 #    - 19200:9200
 #    - 19300:9300
@@ -77,6 +96,8 @@ mysql:
 #######################################
 #redis:
 #  build: ${BOLERPLATEROOT}/docker/redis/
+#  volumes_from:
+#    - storage
 #  env_file:
 #    - ${BOLERPLATEROOT}/etc/environment.yml
 #    - ${BOLERPLATEROOT}/etc/environment.development.yml
@@ -86,6 +107,8 @@ mysql:
 #######################################
 #memcached:
 #  build: ${BOLERPLATEROOT}/docker/memcached/
+#  volumes_from:
+#    - storage
 #  env_file:
 #    - ${BOLERPLATEROOT}/etc/environment.yml
 #    - ${BOLERPLATEROOT}/etc/environment.development.yml
@@ -109,7 +132,15 @@ mysql:
 #  volumes_from:
 #    - storage
 #  volumes:
-#    - ${PROJECTROOT}/:/application/
+#    - ./:/application/
 #  env_file:
 #    - ${BOLERPLATEROOT}/etc/environment.yml
 #    - ${BOLERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# Storage
+#######################################
+#storage:
+ # build: ${BOLERPLATEROOT}/docker/storage/
+ # volumes:
+ #   - /storage
