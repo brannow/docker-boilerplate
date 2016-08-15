@@ -94,8 +94,8 @@ _git_clone()
 #########
 _post_install()
 {
-  if [ ! -f "$1/install.sh" ]; then
-        echo "under $1, no install.sh found -- abort"
+  if [ ! -f "$1/docker-install.sh" ]; then
+        echo "under $1, no docker-install.sh found"
        exit 0;
   fi
 
@@ -104,12 +104,46 @@ _post_install()
 
   CONTAINER_ID=$(docker-compose -f $1/docker-compose.yml ps -q app)
 
-  (cd $1 && sh $1/install.sh "$CONTAINER_ID")
+  (cd $1 && sh $1/docker-install.sh "$CONTAINER_ID")
+}
+
+#########
+# output container information
+#########
+_call_container()
+{
+    CONTAINER_ID=$(docker-compose -f $1/docker-compose.yml ps -q app)
+    if [ ! -z "$CONTAINER_ID" ]
+     then
+        RUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER_ID 2> /dev/null)
+
+        if [ ! "$RUNNING" = "false" ]; then
+            echo "container id: $CONTAINER_ID"
+            echo "container is running..."
+
+            CONTAINER_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $CONTAINER_ID)
+            if [ ! -z "$CONTAINER_IP" ]
+            then
+                echo "container ip: $CONTAINER_IP"
+                echo "url: http://$CONTAINER_IP"
+                #echo "open default browser"
+                #/bin/bash sensible-browser "http://$CONTAINER_IP" &
+            else
+                echo "container is not running"
+            fi
+        fi
+     else
+     echo "container ID not found"
+     exit 0
+    fi
 }
 
 #########
 # MAIN
 #########
+
+hash docker 2>/dev/null || { echo >&2 "Docker not installed.  Aborting."; exit 1; }
+hash docker-compose 2>/dev/null || { echo >&2 "Docker not installed.  Aborting."; exit 1; }
 
 if [ -z "$1" ]
   then
@@ -123,4 +157,6 @@ if [ "$2" = "post-install" ]
    else
         _git_clone $PROJECTROOT
         _docker_exec $2
+        _call_container $PROJECTROOT
 fi
+exit 0
