@@ -120,7 +120,10 @@ the BUILD task will execute a bootstrap script that set the container Webserver 
 
 example: your Host system user runs with userid 1000  and every file in your project root is owned by your system user   
 
-the container working directory will have the same user rights. Per default the webserver runs in a seperate user (www-data) it will give you conflicts if you don't change this.  
+the container working directory will have the same user rights. Per default the webserver runs in a seperate user (www-data) it will give conflicts if we don't change this.
 
 1. the bootstrap script looks for current user id and group id of your HOSTPROJECTROOT and checked if this is already existing on your image, if nor create a new user (docker-user:docker-group) with the correct user and group ids.
 2. Inject the compatible user/Group in the apache2/envvars.
+
+NOTE: this is NOT a proper Production behavior! it makes your life easier ONLY for Development.
+don't mess with your Production user system!
