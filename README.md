@@ -81,7 +81,7 @@ execute with docker-compose (default command is ```build```)
 install-project docker-test-123 post-install
 ```
 will execute a install script (composer, npm, database import etc...)
-the install script must under ```$HOSTPROJECTROOT/PROJECT_NAME/install.sh```
+the install script must under ```$HOSTPROJECTROOT/PROJECT_NAME/docker-install.sh```
 
 ![](https://raw.githubusercontent.com/brannow/docker-boilerplate/master/tty.gif)
 
@@ -93,5 +93,34 @@ docker start container_name
 ```
 or (more comfortable way)
 ```
-install-project my_project_directory start
+install-project my_project_directory up
 ```
+## Default Behaviors
+Docker will create at the first sign the same IP's every build/start don't count on it, use the url at the end of the script.  
+
+```
+> install-project docker-test up
+Creating dockertest_mysql_1
+Creating dockertest_app_1
+container id: 24b24afaf3dc351c4fbae24491138320cc6247a2570a402c7780988dfe67310f
+container is running...
+container ip: 172.18.0.6
+url: http://172.18.0.6
+
+```
+
+### MySQL
+connect your project NOT to the mysql docker ip use instead ```mysql``` as hostname - it will be updates in the app-container hosts file  
+
+mysql_username: root  
+mysql_password: dev  
+
+### UNIX Permissions
+the BUILD task will execute a bootstrap script that set the container Webserver user permissions to the same as your working Directory (HOSTPROJECTROOT)   
+
+example: your Host system user runs with userid 1000  and every file in your project root is owned by your system user   
+
+the container working directory will have the same user rights. Per default the webserver runs in a seperate user (www-data) it will give you conflicts if you don't change this.  
+
+1. the bootstrap script looks for current user id and group id of your HOSTPROJECTROOT and checked if this is already existing on your image, if nor create a new user (docker-user:docker-group) with the correct user and group ids.
+2. Inject the compatible user/Group in the apache2/envvars.
