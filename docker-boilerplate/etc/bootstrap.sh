@@ -39,13 +39,26 @@ echo "set working user to $USERNAME:$USERGRP"
 # change apache user
 ######
 
-# fix fastcgi
-echo "fix fastcgi permissions"
-chown -R $USERNAME:$USERGRP /var/lib/apache2/fastcgi
-# inject new user
-echo "inject user as default apache user"
-echo "" >> /etc/apache2/envvars
-echo "# IGNORE FIRST USER SET USE this --" >> /etc/apache2/envvars
-echo "# create from bootstap.sh in BOILERPLATE/provision/bootstrap.sh" >> /etc/apache2/envvars
-echo "export APACHE_RUN_USER=$USERNAME" >> /etc/apache2/envvars
-echo "export APACHE_RUN_GROUP=$USERGRP" >> /etc/apache2/envvars
+# APACHE
+
+if [ -d "/var/lib/apache2/fastcgi" ]; then
+    # fix fastcgi
+    echo "fix fastcgi permissions"
+    chown -R $USERNAME:$USERGRP /var/lib/apache2/fastcgi
+fi
+if [ -f "/etc/apache2/envvars" ]; then
+    # inject new user
+    echo "inject user as default apache user"
+    echo "" >> /etc/apache2/envvars
+    echo "# IGNORE FIRST USER SET USE this --" >> /etc/apache2/envvars
+    echo "# create from bootstap.sh in BOILERPLATE/provision/bootstrap.sh" >> /etc/apache2/envvars
+    echo "export APACHE_RUN_USER=$USERNAME" >> /etc/apache2/envvars
+    echo "export APACHE_RUN_GROUP=$USERGRP" >> /etc/apache2/envvars
+fi
+
+# NGINX
+if [ -f "/etc/nginx/nginx.conf" ]; then
+    sed "s/www-data/$USERNAME/" /etc/nginx/nginx.conf > /etc/nginx/nginx.conf.new
+    rm -rf /etc/nginx/nginx.conf
+    mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf
+fi

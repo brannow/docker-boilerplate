@@ -51,6 +51,12 @@ ENV PROVISION_CONTEXT "development"
 COPY etc/             /opt/docker/etc/
 COPY provision/       /opt/docker/provision/
 
+RUN /opt/docker/bin/provision add --tag bootstrap --tag entrypoint boilerplate-main \
+    && /opt/docker/bin/bootstrap.sh
+
 # Configure volume/workdir
 RUN mkdir -p /app/
 WORKDIR /app/
+
+RUN chmod +x /opt/docker/etc/bootstrap.sh
+RUN /opt/docker/etc/bootstrap.sh
