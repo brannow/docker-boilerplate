@@ -1,0 +1,8 @@
+---
+
+- stat: path=/usr/bin/nodejs
+  register: node_bin
+
+- name: install NPM ... will take some time
+  raw: 'apt-get update && apt-get install -y npm'
+  when: node_bin.stat.exists is defined and not node_bin.stat.exists

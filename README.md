@@ -80,7 +80,7 @@ execute with docker-compose (default command is ```build```)
 ```
 install-project docker-test-123 post-install
 ```
-will execute a install script (composer, npm, database import etc...)
+will execute a install script (composer, npm, etc...)
 the install script must under ```$HOSTPROJECTROOT/PROJECT_NAME/docker-install.sh```
 
 ![](https://raw.githubusercontent.com/brannow/docker-boilerplate/master/tty.gif)

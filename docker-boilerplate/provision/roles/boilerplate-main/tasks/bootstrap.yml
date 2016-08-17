@@ -18,6 +18,9 @@
 - include: bootstrap/composer.yml
   when: PROVISION.install.phpComposer is defined and PROVISION.install.phpComposer
 
+- include: bootstrap/npm.yml
+  when: ansible_distribution == 'Ubuntu'
+
 - include: bootstrap/services.yml
 
 - include: bootstrap/cron.yml
