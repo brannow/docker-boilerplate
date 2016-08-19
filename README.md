@@ -104,7 +104,7 @@ dumped the given database into a file
 dumped the given database into a bzip-file (ALL DATABASES)
 
 ``` backup-db [DB-name] [sql-destination] ```   
-dumped the given database into a bzip-file (ALL DATABASES)
+dumped the given database into a bzip-file (only the given DB-name)
 
 ``` restore [sql-source] ```   
 restore a database dump into the database
