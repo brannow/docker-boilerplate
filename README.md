@@ -94,6 +94,12 @@ PROJECT_NAME: is the name of the project folder under $1
 COMMAND: all docker-compose commands are supported
 for more information exec 'docker-compose help'
 
+``` install ```
+execute the docker-install.sh script in the container
+
+``` create [type=] ```
+dumped the given database into a file
+
 ## Start Project
 start your container with:
 ```
