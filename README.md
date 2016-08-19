@@ -88,11 +88,11 @@ the install script must under ```$HOSTPROJECTROOT/PROJECT_NAME/docker-install.sh
 
 ## Commands
 
-install-project.sh [PROJECT_NAME] [COMMAND]"
+install-project.sh [PROJECT_NAME] [COMMAND]
 
-PROJECT_NAME: is the name of the project folder under $1"
-COMMAND: all docker-compose commands are supported"
-for more information exec 'docker-compose help'"
+PROJECT_NAME: is the name of the project folder under $1
+COMMAND: all docker-compose commands are supported
+for more information exec 'docker-compose help'
 
 ```install```
 execute the docker-install.sh script in the container
