@@ -94,11 +94,23 @@ PROJECT_NAME: is the name of the project folder under $1
 COMMAND: all docker-compose commands are supported
 for more information exec 'docker-compose help'
 
-``` install ```
+``` install ```   
 execute the docker-install.sh script in the container
 
-``` create [type=] ```
+``` create [type=] ```   
 dumped the given database into a file
+
+``` backup [sql-destination] ```   
+dumped the given database into a bzip-file (ALL DATABASES)
+
+``` backup-db [DB-name] [sql-destination] ```   
+dumped the given database into a bzip-file (ALL DATABASES)
+
+``` restore [sql-source] ```   
+restore a database dump into the database
+
+``` inject-key [host_key_path] [(optional default=id_rsa) container_key_name] ```   
+ copy from host system into a running container an ssh private key
 
 ## Start Project
 start your container with:
