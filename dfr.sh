@@ -1,9 +1,6 @@
 #!/bin/sh
 
 # system environment
-export BOLERPLATEROOT="/var/docker/boilerplate/docker-boilerplate"
-HOSTPROJECTROOT="/var/www/projects"
-
 
 PROJECTDIR=$1
 export PROJECTROOT="$HOSTPROJECTROOT/$PROJECTDIR"
