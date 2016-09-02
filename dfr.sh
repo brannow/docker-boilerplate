@@ -16,7 +16,7 @@ export PROJECTROOT="$HOSTPROJECTROOT/$PROJECTDIR"
 #########
 _help()
 {
-  echo "install-project.sh [PROJECT_NAME] [COMMAND]"
+  echo "dfr.sh [PROJECT_NAME] [COMMAND]"
   echo ""
   echo "    PROJECT_NAME: is the name of the project folder under $1"
   echo "    COMMAND: all docker-compose commands are supported"
@@ -24,9 +24,6 @@ _help()
   echo ""
   echo "    install"
   echo "              execute the docker-install.sh script in the container"
-  echo ""
-  echo "    create [type=]"
-  echo "              dumped the given database into a file"
   echo ""
   echo "    backup [sql-destination]"
   echo "              dumped the given database into a bzip-file (ALL DATABASES)"
