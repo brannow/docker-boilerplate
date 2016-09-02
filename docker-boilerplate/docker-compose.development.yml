@@ -2,7 +2,7 @@
 # PHP application Docker container
 #######################################
 app:
-  build: ${BOLERPLATEROOT}
+  build: ${BOILERPLATEROOTe-breadcrumb__item}
   dockerfile: Dockerfile.development
   links:
     - mysql
@@ -20,20 +20,20 @@ app:
   volumes:
     - ${PROJECTROOT}/:/app/
     - /tmp/debug/:/tmp/debug/
-    - ${BOLERPLATEROOT}/:/docker/
+    - ${BOILERPLATEROOTe-breadcrumb__item}/:/docker/
   # cap and privileged needed for slowlog
   cap_add:
     - SYS_PTRACE
   privileged: true
   env_file:
-    - ${BOLERPLATEROOT}/etc/environment.yml
-    - ${BOLERPLATEROOT}/etc/environment.development.yml
+    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # MySQL server
 #######################################
 mysql:
-  build: ${BOLERPLATEROOT}/docker/mysql
+  build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/mysql
   #dockerfile: MySQL-5.5
   #dockerfile: MySQL-5.6
   dockerfile: MySQL-5.7
@@ -46,8 +46,8 @@ mysql:
   volumes:
     - /tmp/debug/:/tmp/debug/
   env_file:
-    - ${BOLERPLATEROOT}/etc/environment.yml
-    - ${BOLERPLATEROOT}/etc/environment.development.yml
+    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # PostgreSQL server
@@ -66,7 +66,7 @@ mysql:
 # Solr server
 #######################################
 #solr:
-#  build: ${BOLERPLATEROOT}/docker/solr/
+#  build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/solr/
 #  ports:
 #    - 18983:8983
 #  volumes_from:
@@ -74,73 +74,73 @@ mysql:
 #  environment:
 #    - SOLR_STORAGE=/storage/solr/server-master/
 #  env_file:
-#    - ${BOLERPLATEROOT}/etc/environment.yml
-#    - ${BOLERPLATEROOT}/etc/environment.development.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # Elasticsearch
 #######################################
 #elasticsearch:
-#  build: ${BOLERPLATEROOT}/docker/elasticsearch/
+#  build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/elasticsearch/
 #  ports:
 #    - 19200:9200
 #    - 19300:9300
 #  volumes_from:
 #    - storage
 #  env_file:
-#    - ${BOLERPLATEROOT}/etc/environment.yml
-#    - ${BOLERPLATEROOT}/etc/environment.development.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # Redis
 #######################################
 #redis:
-#  build: ${BOLERPLATEROOT}/docker/redis/
+#  build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/redis/
 #  volumes_from:
 #    - storage
 #  env_file:
-#    - ${BOLERPLATEROOT}/etc/environment.yml
-#    - ${BOLERPLATEROOT}/etc/environment.development.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # Memcached
 #######################################
 #memcached:
-#  build: ${BOLERPLATEROOT}/docker/memcached/
+#  build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/memcached/
 #  volumes_from:
 #    - storage
 #  env_file:
-#    - ${BOLERPLATEROOT}/etc/environment.yml
-#    - ${BOLERPLATEROOT}/etc/environment.development.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # Mailcatcher
 #######################################
 #mail:
-#  build: ${BOLERPLATEROOT}/docker/mail/
+#  build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/mail/
 #  ports:
 #    - 1080:1080
 #  env_file:
-#    - ${BOLERPLATEROOT}/etc/environment.yml
-#    - ${BOLERPLATEROOT}/etc/environment.development.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # FTP (vsftpd)
 #######################################
 #ftp:
-#  build: ${BOLERPLATEROOT}/docker/vsftpd/
+#  build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/vsftpd/
 #  volumes_from:
 #    - storage
 #  volumes:
 #    - ./:/application/
 #  env_file:
-#    - ${BOLERPLATEROOT}/etc/environment.yml
-#    - ${BOLERPLATEROOT}/etc/environment.development.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.yml
+#    - ${BOILERPLATEROOTe-breadcrumb__item}/etc/environment.development.yml
 
 #######################################
 # Storage
 #######################################
 #storage:
- # build: ${BOLERPLATEROOT}/docker/storage/
+ # build: ${BOILERPLATEROOTe-breadcrumb__item}/docker/storage/
  # volumes:
  #   - /storage
