@@ -1,0 +1,146 @@
+#######################################
+# PHP application Docker container
+#######################################
+app:
+  build: ${BOILERPLATEROOT}
+  dockerfile: Dockerfile-php5.6.development
+  links:
+    - mysql
+    #- postgres
+    #- mail
+    #- solr
+    #- elasticsearch
+    #- redis
+    #- memcached
+    #- ftp
+  ports:
+    - "8001:80"
+    - "8443:443"
+    - "10022:22"
+  volumes:
+    - ${PROJECTROOT}/:/app/
+    - /tmp/debug/:/tmp/debug/
+    - ${BOILERPLATEROOT}/:/docker/
+  # cap and privileged needed for slowlog
+  cap_add:
+    - SYS_PTRACE
+  privileged: true
+  env_file:
+    - ${BOILERPLATEROOT}/etc/environment.yml
+    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# MySQL server
+#######################################
+mysql:
+  build: ${BOILERPLATEROOT}/docker/mysql
+  #dockerfile: MySQL-5.5
+  #dockerfile: MySQL-5.6
+  dockerfile: MySQL-5.7
+  #dockerfile: MariaDB-5.5
+  #dockerfile: MariaDB-10
+  #dockerfile: Percona-5.5
+  #dockerfile: Percona-5.6
+  ports:
+    - 13307:3306
+  volumes:
+    - /tmp/debug/:/tmp/debug/
+  env_file:
+    - ${BOILERPLATEROOT}/etc/environment.yml
+    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# PostgreSQL server
+#######################################
+#postgres:
+#  build: docker/postgres/
+#  ports:
+#    - 15432:5432
+#  volumes_from:
+#    - storage
+#  env_file:
+#    - etc/environment.yml
+#    - etc/environment.development.yml
+
+#######################################
+# Solr server
+#######################################
+#solr:
+#  build: ${BOILERPLATEROOT}/docker/solr/
+#  ports:
+#    - 18983:8983
+#  volumes_from:
+#    - storage
+#  environment:
+#    - SOLR_STORAGE=/storage/solr/server-master/
+#  env_file:
+#    - ${BOILERPLATEROOT}/etc/environment.yml
+#    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# Elasticsearch
+#######################################
+#elasticsearch:
+#  build: ${BOILERPLATEROOT}/docker/elasticsearch/
+#  ports:
+#    - 19200:9200
+#    - 19300:9300
+#  volumes_from:
+#    - storage
+#  env_file:
+#    - ${BOILERPLATEROOT}/etc/environment.yml
+#    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# Redis
+#######################################
+#redis:
+#  build: ${BOILERPLATEROOT}/docker/redis/
+#  volumes_from:
+#    - storage
+#  env_file:
+#    - ${BOILERPLATEROOT}/etc/environment.yml
+#    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# Memcached
+#######################################
+#memcached:
+#  build: ${BOILERPLATEROOT}/docker/memcached/
+#  volumes_from:
+#    - storage
+#  env_file:
+#    - ${BOILERPLATEROOT}/etc/environment.yml
+#    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# Mailcatcher
+#######################################
+#mail:
+#  build: ${BOILERPLATEROOT}/docker/mail/
+#  ports:
+#    - 1080:1080
+#  env_file:
+#    - ${BOILERPLATEROOT}/etc/environment.yml
+#    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# FTP (vsftpd)
+#######################################
+#ftp:
+#  build: ${BOILERPLATEROOT}/docker/vsftpd/
+#  volumes_from:
+#    - storage
+#  volumes:
+#    - ./:/application/
+#  env_file:
+#    - ${BOILERPLATEROOT}/etc/environment.yml
+#    - ${BOILERPLATEROOT}/etc/environment.development.yml
+
+#######################################
+# Storage
+#######################################
+#storage:
+ # build: ${BOILERPLATEROOT}/docker/storage/
+ # volumes:
+ #   - /storage
