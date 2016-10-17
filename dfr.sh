@@ -4,6 +4,16 @@
 
 PROJECTDIR=$1
 export PROJECTROOT="$HOSTPROJECTROOT/$PROJECTDIR"
+KERNEL='L'
+case "$OSTYPE" in
+  linux*)   KERNEL="L" ;;
+  darwin*)  KERNEL="D" ;; 
+  win*)     KERNEL="W" ;;
+  cygwin*)  KERNEL="W" ;;
+  bsd*)     KERNEL="D" ;;
+  solaris*) KERNEL="L" ;;
+  *)        KERNEL="U" ;;
+esac
 
 #########
 #
@@ -78,9 +88,9 @@ _git_clone()
   echo "Branch: develop | master | feature/fancyFeature | ..."
   echo ""
   echo ""
-  echo -n "Enter git Repository:"
+  echo -n 'Enter git Repository:'
   read REPOSITORY
-  echo -n "Enter git branch [develop]: "
+  echo -n 'Enter git branch [develop]:'
   read BRANCH
 
   if [ -z "$BRANCH" ]; then
@@ -110,7 +120,7 @@ _post_install()
   _docker_exec "up"
 
   CONTAINER_ID=$(docker-compose -f $PROJECTROOT/docker-compose.yml ps -q app)
-  USERID=$(stat -c '%u' $PROJECTROOT)
+  USERID=$(docker exec -i $CONTAINER_ID sh -c "stat -c '%u' /usr/local/bin")
   echo "exec as $USERID"
   docker exec -i -u $USERID $CONTAINER_ID sh docker-install.sh $CONTAINER_ID
   echo "done."
@@ -263,7 +273,7 @@ _inject_ssh_key()
     fi
 
     CONTAINER_ID=$(docker-compose -f $PROJECTROOT/docker-compose.yml ps -q app)
-    USERID=$(stat -c '%u' $PROJECTROOT)
+    USERID=$(docker exec -i $CONTAINER_ID sh -c "stat -c '%u' /usr/local/bin")
     docker exec -i -u $USERID $CONTAINER_ID sh -c "mkdir -p ~/.ssh && echo '$SSH_KEY' > ~/.ssh/$KEY_NAME && chmod 600 ~/.ssh/$KEY_NAME"
     docker exec -i -u $USERID $CONTAINER_ID sh -c "if [ ! -f ~/.ssh/config ]; then echo 'Host github.com\n\tStrictHostKeyChecking no\nHost frs.plan.io\n\tStrictHostKeyChecking no\n' > ~/.ssh/config; fi"
     docker exec -i -u $USERID $CONTAINER_ID sh -c "echo 'IdentityFile ~/.ssh/$KEY_NAME\n' >> ~/.ssh/config"

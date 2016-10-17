@@ -12,10 +12,31 @@ PROBEDDIR="/app"
 ANONUSER="docker-user"
 ANONGRP="docker-group"
 
+KERNEL='L'
+case "$OSTYPE" in
+linux*)   KERNEL="L" ;;
+darwin*)  KERNEL="D" ;;
+win*)     KERNEL="W" ;;
+cygwin*)  KERNEL="W" ;;
+bsd*)     KERNEL="D" ;;
+solaris*) KERNEL="L" ;;
+*)        KERNEL="U" ;;
+esac
+
 # collect current system user information from the PROBEDDIR
 echo "allocate current system information"
+
+if [ $KERNEL == "D" ]
+then
+echo "detect host as Darwin/BSD"
+USERID=$(stat -f '%u' $PROBEDDIR)
+GRPID=$(stat -f '%u' $PROBEDDIR)
+else
+echo "detect host as Unix/Linux"
 USERID=$(stat -c '%u' $PROBEDDIR)
 GRPID=$(stat -c '%u' $PROBEDDIR)
+fi
+
 USERNAME=$(awk -v val=$USERID -F ":" '$3==val{print $1}' /etc/passwd)
 USERGRP=$(awk -v val=$GRPID -F ":" '$3==val{print $1}' /etc/group)
 
@@ -34,7 +55,7 @@ if [ -z "$USERNAME" ]; then
     echo "create new user ($USERID:$USERNAME) with group ($GRPID:$USERGRP)"
 fi
 
-echo "set working user to $USERNAME:$USERGRP"
+echo "set working user to $USERNAME:$USERGRP ($USERID:$GRPID)"
 
 ######
 # change user permissions
